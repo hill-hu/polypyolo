@@ -12,6 +12,7 @@ from ultralytics import YOLO, utils
 
 def parse_opt(known=False):
     parser = argparse.ArgumentParser()
+    parser.add_argument('--weights', type=str, default='yolov8m.pt', help='weight pt path')
     parser.add_argument('--cfg', type=str, default='', help='model.yaml path')
     parser.add_argument("--data", type=str, help="data.yaml path ")
 
@@ -26,7 +27,7 @@ if __name__ == '__main__':
     print(opts)
     cfg = utils.yaml_load(opts.cfg)
 
-    model = YOLO(cfg['pretrained'])  # load a pretrained model (recommended for training)
+    model = YOLO(opts.weights)  # load a pretrained model (recommended for training)
     # model = YOLO('yolov8n.yaml').load('yolov8n.pt')  # build from YAML and transfer weights
 
     # Train the model

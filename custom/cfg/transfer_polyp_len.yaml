@@ -31,7 +31,7 @@ cos_lr: False # (bool) use cosine learning rate scheduler
 close_mosaic: 10 # (int) disable mosaic augmentation for final epochs (0 to disable)
 resume: False # (bool) resume training from last checkpoint
 amp: True # (bool) Automatic Mixed Precision (AMP) training, choices=[True, False], True runs AMP check
-fraction: 1.0 # (float) dataset fraction to train on (default is 1.0, all images in train set)
+fraction: 0.2 # (float) dataset fraction to train on (default is 1.0, all images in train set)
 profile: False # (bool) profile ONNX and TensorRT speeds during training for loggers
 freeze: None # (int | list, optional) freeze first n layers, or freeze list of layer indices during training
 multi_scale: False # (bool) Whether to use multi-scale during training
@@ -91,7 +91,7 @@ lr0: 0.01 # (float) initial learning rate (i.e. SGD=1E-2, Adam=1E-3)
 lrf: 0.01 # (float) final learning rate (lr0 * lrf)
 momentum: 0.937 # (float) SGD momentum/Adam beta1
 weight_decay: 0.0005 # (float) optimizer weight decay 5e-4
-warmup_epochs: 3.0 # (float) warmup epochs (fractions ok)
+warmup_epochs: 0 # (float) warmup epochs (fractions ok)
 warmup_momentum: 0.8 # (float) warmup initial momentum
 warmup_bias_lr: 0.1 # (float) warmup initial bias lr
 box: 7.5 # (float) box loss gain
@@ -106,17 +106,17 @@ hsv_s: 0.7 # (float) image HSV-Saturation augmentation (fraction)
 hsv_v: 0.4 # (float) image HSV-Value augmentation (fraction)
 degrees: 0.0 # (float) image rotation (+/- deg)
 translate: 0.1 # (float) image translation (+/- fraction)
-scale: 0.5 # (float) image scale (+/- gain)
+scale: 0 # (float) image scale (+/- gain)
 shear: 0.0 # (float) image shear (+/- deg)
 perspective: 0.0 # (float) image perspective (+/- fraction), range 0-0.001
 flipud: 0.0 # (float) image flip up-down (probability)
 fliplr: 0.5 # (float) image flip left-right (probability)
-mosaic: 1.0 # (float) image mosaic (probability)
+mosaic: 0 # (float) image mosaic (probability)
 mixup: 0.0 # (float) image mixup (probability)
 copy_paste: 0.0 # (float) segment copy-paste (probability)
 auto_augment: randaugment # (str) auto augmentation policy for classification (randaugment, autoaugment, augmix)
-erasing: 0.4 # (float) probability of random erasing during classification training (0-1)
-crop_fraction: 1.0 # (float) image crop fraction for classification evaluation/inference (0-1)
+erasing: 0 # (float) probability of random erasing during classification training (0-1)
+crop_fraction: 0 # (float) image crop fraction for classification evaluation/inference (0-1)
 
 # Custom config.yaml ---------------------------------------------------------------------------------------------------
 cfg: # (str, optional) for overriding defaults.yaml

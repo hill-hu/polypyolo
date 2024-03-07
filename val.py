@@ -50,33 +50,38 @@ if __name__ == '__main__':
 
     model = YOLO(opts.weights)  # load a pretrained model (recommended for training)
     # model = YOLO('yolov8n.yaml').load('yolov8n.pt')  # build from YAML and transfer weights
-    results = model(lines)
+
     stats = []
     names = model.names
     print("class names :", names)
-    for i, result in enumerate(results):
-        boxes = result.boxes  # Boxes object for bounding box outputs
-        masks = result.masks  # Masks object for segmentation masks outputs
-        probs = result.probs  # Probs object for classification outputs
-        # result.show()  # display to screen
-        # result.save(filename='result.jpg')  # save to disk
-        size = 0
-        predict = None
-        names = result.names
+    batch_n = 0
+    batch_size = 64
+    while batch_n < len(labels) / batch_size:
+        results = model(lines[batch_n * batch_size:(batch_n + 1) * batch_size])
+        batch_n += 1
+        for i, result in enumerate(results):
+            boxes = result.boxes  # Boxes object for bounding box outputs
+            masks = result.masks  # Masks object for segmentation masks outputs
+            probs = result.probs  # Probs object for classification outputs
+            # result.show()  # display to screen
+            # result.save(filename='result.jpg')  # save to disk
+            size = 0
+            predict = None
+            names = result.names
 
-        if len(boxes) > 0:
-            predict = names[int(boxes[0].cls)]
-            # print("class_name:", predict)
-        else:
-            print("predict is miss:",result.path)
+            if len(boxes) > 0:
+                predict = names[int(boxes[0].cls)]
+                # print("class_name:", predict)
+            else:
+                print("predict is miss:", result.path)
 
-        label_cls = names[labels[i]]
-        diff, precision = cal_diff(label_cls, predict)
-        stat = {"path": result.path, "diff": diff, "precision": precision,
-                "label": label_cls, "predict": predict}
-        stats.append(stat)
+            label_cls = names[labels[i]]
+            diff, precision = cal_diff(label_cls, predict)
+            stat = {"path": result.path, "diff": diff, "precision": precision,
+                    "label": label_cls, "predict": predict}
+            stats.append(stat)
 
-    total = len(results)
+    total = len(lines)
 
     for i in range(0, 3):
         top_diff = len([stat for stat in stats if stat["diff"] <= i])
