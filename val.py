@@ -1,13 +1,8 @@
+import argparse
+import os
 from multiprocessing import freeze_support
 
-import logging
-import os
-import argparse
-
-import sys
-from datetime import timedelta
-
-from ultralytics import YOLO, utils
+from ultralytics import utils
 from ultralytics.models.yolo.detect import DetectionValidator
 
 
@@ -53,7 +48,7 @@ def stats_matrix(matrix, names, label_names, total):
         print(f"diff <={i}:", top_diff, f"/{total} ,rate:{top_diff / total}")
 
     for p in [0.7, 0.8, 0.9, 1.0]:
-        top_p = len([stat for stat in stats if stat["precision"] >= p])
+        top_p = len([stat for stat in stats if p <= stat["precision"] <= 1])
         print(f"precision >={p}:", top_p, f"/{total} ,rate:{top_p / total}")
     # print(stats)
 
